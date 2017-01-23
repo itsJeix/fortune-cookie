@@ -14,11 +14,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import webapp2
+import webapp2, random
+
+def get_lucky():
+    return str(random.randrange(1,101))
+
+def get_fortune():
+    fortune_list = ["You are going to have a good day",
+    "Tonight you will eat tasty foods",
+    "Please eat fewer cookies"]
+    return random.choice(fortune_list)
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        header = "<h1>Fortune Cookie</h1>"
+        lucky_number = '<p>Your lucky number is: <strong>' + get_lucky() + '<strong></p>'
+        fortune = "<p>Your fortune is : <strong>" + get_fortune() + "</strong></p>"
+        cookie_button = """<a href="."><button>Try another cookie</button></a>"""
+        self.response.write(header + fortune + lucky_number + cookie_button)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
